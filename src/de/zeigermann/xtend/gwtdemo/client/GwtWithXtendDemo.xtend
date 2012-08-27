@@ -1,5 +1,7 @@
 package de.zeigermann.xtend.gwtdemo.client;
 
+import static extension de.zeigermann.xtend.gwtdemo.client.AsyncCallbackExtensions.*
+
 import de.zeigermann.xtend.gwtdemo.shared.ValidationService
 import de.zeigermann.xtend.gwtdemo.shared.ValidationServiceAsync
 
@@ -33,10 +35,10 @@ class GwtWithXtendDemo implements EntryPoint {
 		sendButton.addClickHandler [
 			GWT::log("Clicked")
 			errorLabel.text = ""
-			service.isValid(nameField.text, new AsyncCallbackAdaptor<Boolean>(
-		 	  [result | errorLabel.text = if (result) "Ok" else "Error"],
-		 	  [caught | errorLabel.text = caught.toString] ))
+			service.isValid(nameField.text, 
+				onSuccess [result | errorLabel.text = if (result) "Ok" else "Error"]
+//				.onFailure [caught | errorLabel.text = caught.toString]
+			)
 		]
-
 	}
 }
