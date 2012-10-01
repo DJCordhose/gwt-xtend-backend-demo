@@ -37,7 +37,7 @@ class GwtWithXtendDemo implements EntryPoint {
 			errorLabel.text = ""
 			service.isValid(nameField.text, 
 				onSuccess [result | errorLabel.text = if (result) "Ok" else "Error"]
-//				.onFailure [caught | errorLabel.text = caught.toString]
+				.onFailure [caught | errorLabel.text = caught.toString]
 			)
 		]
 	}
