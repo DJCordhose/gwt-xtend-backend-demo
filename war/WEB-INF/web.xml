@@ -6,6 +6,15 @@
          xmlns="http://java.sun.com/xml/ns/javaee">
 
   <!-- Servlets -->
+  <servlet>
+   <servlet-name>validationService</servlet-name>
+   <servlet-class>de.zeigermann.xtend.gwtdemo.server.ValidationServiceImpl</servlet-class>
+  </servlet>
+  
+  <servlet-mapping>
+    <servlet-name>validationService</servlet-name>
+    <url-pattern>/gwtwithxtenddemo/validationService</url-pattern>
+  </servlet-mapping>
   
   <!-- Default page to serve -->
   <welcome-file-list>

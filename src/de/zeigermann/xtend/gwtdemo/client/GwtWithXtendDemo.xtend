@@ -35,14 +35,11 @@ class GwtWithXtendDemo implements EntryPoint {
 				GWT::log("Clicked")
 				errorLabel.text = ""
 				service.isValid(nameField.text, handle[
-						if (result != null) {
-							if (result) 
-								errorLabel.text = "Ok" 
-							else 
-								errorLabel.text = "Error"
+						if (exception != null) {
+							errorLabel.text = exception.message
 						} else {
-							errorLabel.text = exception?.message
-						} 
+							errorLabel.text = if (result == Boolean::TRUE) "Ok" else "Error"
+						}
 					])
 			]
 		]
