@@ -7,8 +7,14 @@ import org.eclipse.xtend.core.xtend.XtendFile
 
 import static extension de.zeigermann.xtend.gwtdemo.shared.Names.*
 import com.google.gwt.user.server.rpc.RemoteServiceServlet
+import org.eclipse.xtext.common.types.TypesFactory
+import com.google.gwt.user.client.rpc.RemoteServiceRelativePath
+import org.eclipse.xtext.common.types.JvmAnnotationType
+import com.google.gwt.user.client.rpc.RemoteService
 
 @GwtService for class {
+	
+  static String value = 'UNDEFINED'
 
   register {
   	elements.forEach [
@@ -42,6 +48,13 @@ import com.google.gwt.user.server.rpc.RemoteServiceServlet
 		]
 		
 		with(interfaceName) [ interface |
+			interface.superTypes += <RemoteService>type
+			interface.annotations += TypesFactory::eINSTANCE.createJvmAnnotationReference => [ annoRef |
+				annoRef.annotation = <RemoteServiceRelativePath>type.type as JvmAnnotationType
+				val annoValue = TypesFactory::eINSTANCE?.createJvmStringAnnotationValue
+				annoRef.values += annoValue
+				annoValue.values += servletPath(null)
+			]
 			for (m : members.filter(typeof(XtendFunction))) {
 				method (m.name, m.returnType) [
 			    	m.parameters.forEach [ param(name, parameterType) ]
@@ -57,6 +70,13 @@ import com.google.gwt.user.server.rpc.RemoteServiceServlet
 }
 
 class Names {
+	
+	def static String servletPath(XtendClass clazz, String value) {
+		if (value != null && value != 'UNDEFINED') {
+			return value
+		}
+		return clazz.name.toFirstLower.substring(0, clazz.name.length - 4)
+	}
 	
 	def static String packageName(XtendClass clazz) {
 		val file = clazz.eResource.contents.head as XtendFile
