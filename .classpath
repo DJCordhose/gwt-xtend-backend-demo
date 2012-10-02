@@ -12,5 +12,11 @@
 	<classpathentry kind="lib" path="lib/org.eclipse.xtend.lib.gwt_2.4.0.v201208201126.jar"/>
 	<classpathentry kind="lib" path="lib/org.eclipse.xtext.xbase.lib_2.4.0.v201208201126.jar"/>
 	<classpathentry kind="lib" path="lib/org.eclipse.xtext.xbase.lib.gwt_2.4.0.v201208201126.jar"/>
+	<classpathentry kind="lib" path="/Users/efftinge/Eclipse/eclipse-gwt/plugins/org.eclipse.xtend.macro_2.4.0.v201210011825.jar"/>
+	<classpathentry kind="lib" path="/Users/efftinge/Eclipse/eclipse-gwt/plugins/org.eclipse.xtext.xbase_2.4.0.v201210011825.jar"/>
+	<classpathentry kind="lib" path="/Users/efftinge/Eclipse/eclipse-gwt/plugins/org.eclipse.xtext.common.types_2.4.0.v201210011825.jar"/>
+	<classpathentry kind="lib" path="/Users/efftinge/Eclipse/eclipse-gwt/plugins/org.eclipse.xtend.core_2.4.0.v201210011825.jar"/>
+	<classpathentry kind="lib" path="/Users/efftinge/Eclipse/eclipse-gwt/plugins/org.eclipse.emf.ecore_2.9.0.v20120919-0345.jar"/>
+	<classpathentry kind="lib" path="/Users/efftinge/Eclipse/eclipse-gwt/plugins/org.eclipse.emf.common_2.9.0.v20120919-0345.jar"/>
 	<classpathentry kind="output" path="war/WEB-INF/classes"/>
 </classpath>

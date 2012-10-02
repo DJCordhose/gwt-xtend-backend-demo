@@ -1,0 +1,73 @@
+package de.zeigermann.xtend.gwtdemo.shared
+
+import com.google.gwt.user.client.rpc.AsyncCallback
+import org.eclipse.xtend.core.xtend.XtendClass
+import org.eclipse.xtend.core.xtend.XtendFunction
+import org.eclipse.xtend.core.xtend.XtendFile
+
+import static extension de.zeigermann.xtend.gwtdemo.shared.Names.*
+import com.google.gwt.user.server.rpc.RemoteServiceServlet
+
+@GwtService for class {
+
+  register {
+  	elements.forEach [
+	  	registerInterface(interfaceName)
+		registerInterface(interfaceAsyncName)
+  	]
+  }
+
+  process {
+  	elements.forEach [
+  		
+  		if (!name.endsWith("Impl")) {
+  			error("The name must end with 'Impl'")
+  		}
+  		
+  		if (!packageName.contains(".server")) {
+  			error("A service must reside under the 'server' package.")
+  		}
+  		
+  		if (^extends != null) {
+  			error("A service must not extend another class.")
+  		}
+  		
+		with(interfaceAsyncName) [ asyncInterface |
+		  for (m : members.filter(typeof(XtendFunction))) {
+		    method (m.name, type(Void::TYPE)) [
+		      m.parameters.forEach [ param(name, parameterType) ]
+		      param('result', type( typeof(AsyncCallback), m.returnType))
+		    ]
+		  }
+		]
+		
+		with(interfaceName) [ interface |
+			for (m : members.filter(typeof(XtendFunction))) {
+				method (m.name, m.returnType) [
+			    	m.parameters.forEach [ param(name, parameterType) ]
+			  	]
+			}
+			with(packageName + "." + name) [ mainType |
+				mainType.superTypes += <RemoteServiceServlet>type
+				mainType.superTypes += type(interface)
+			]
+		]
+  	]
+  }
+}
+
+class Names {
+	
+	def static String packageName(XtendClass clazz) {
+		val file = clazz.eResource.contents.head as XtendFile
+		return file.getPackage
+	}
+	
+	def static interfaceName(XtendClass it) {
+		packageName(it).replace('server', 'shared') + "." + name.substring(0, name.length - 4)
+	}
+	
+	def static interfaceAsyncName(XtendClass it) {
+		packageName(it).replace('server', 'shared') + "." + name.substring(0, name.length - 4) + 'Async'
+	}
+}
